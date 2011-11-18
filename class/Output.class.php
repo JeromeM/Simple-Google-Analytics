@@ -111,17 +111,21 @@
 			// Ecriture des options
 			$ret  = "\n" ;
 			$ret .= '<!-- Simple Google Analytics Begin -->' . "\n" ;
-			$ret .= '<script>' ;
+			$ret .= '<script type="text/javascript">' . "\n" ;
 			$ret .= 'var _gaq = [' ;
 			foreach ($options as $key => $value) {
-				$ret .= is_null($value) ? '[' . $key . ']' : '[' . $key . ',' . $value . ']' ;
+				$ret .= is_null($value) ? '[\'' . $key . '\']' : '[\'' . $key . '\',\'' . $value . '\']' ;
 				$ret .= ',' ;
 			}
 			$ret  = rtrim($ret, ',') ;
 			$ret .= '];' ;
 			
-			// Code Google optimisé
-			$ret .= '(function(d, t) {var g = d.createElement(t),s = d.getElementsByTagName(t)[0];g.src = \'//www.google-analytics.com/ga.js\';s.parentNode.insertBefore(g, s);}(document, \'script\'));' ;
+			// Code Google
+			$ret .= '(function() {' . "\n" ;
+			$ret .= 'var ga = document.createElement(\'script\'); ga.type = \'text/javascript\'; ga.async = true;' . "\n" ;
+			$ret .= 'ga.src = (\'https:\' == document.location.protocol ? \'https://ssl\' : \'http://www\') + \'.google-analytics.com/ga.js\';' . "\n" ;
+			$ret .= 'var s = document.getElementsByTagName(\'script\')[0]; s.parentNode.insertBefore(ga, s);' . "\n" ;
+			$ret .= '})();' . "\n" ;
 			$ret .= '</script>' ;
 			$ret .= "\n" . '<!-- Simple Google Analytics End -->' ;
 			$ret .= "\n" ;
