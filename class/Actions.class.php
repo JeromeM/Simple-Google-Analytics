@@ -81,7 +81,7 @@
 		
 		// Ajoute le sous-menu aux réglages
 		public static function menu() {
-			add_options_page(SGA_PLUGIN_TITLE, Output::__('Simple Google Analytics Settings'), SGA_SETTINGS_AUTH, __FILE__, "Output::settingsPage") ;
+			add_options_page(SGA_PLUGIN_TITLE, Output::__('Simple Google Analytics Settings'), SGA_SETTINGS_AUTH, 'simple-google-analytics-config', "Output::settingsPage") ;
 		}
 		
 		
@@ -121,7 +121,7 @@
 			
 			// Pour chaques filtres
 			foreach ($this->filters as $key => $value) {
-				add_filter($key, 'Actions::' . $value) ;
+				add_filter($key . '_' . SGA_BASENAME, 'Actions::' . $value) ;
 			}
 			
 		}
@@ -129,7 +129,7 @@
 		
 		// Insère un lien sur la page des plugins
 		public static function actionLinks($links) {
-			$link = '<a href="' . menu_page_url ( plugin_basename(__FILE__) , false ) . '">' . Output::__('Settings') .'</a>' ;
+			$link = '<a href="' . menu_page_url('simple-google-analytics-config' , false) . '">' . Output::__('Settings') .'</a>' ;
 			array_unshift($links, $link) ;
 			return $links ;
 		}
