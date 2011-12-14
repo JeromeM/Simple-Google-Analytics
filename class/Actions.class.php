@@ -46,7 +46,7 @@
 			
 			// Pour chaque fichier JS
 			foreach ($this->javascript as $value) {
-				wp_enqueue_script(self::_NAMESPACE, plugins_url('', dirname(__FILE__)) . '/js/' . $value) ;
+				wp_enqueue_script(self::_NAMESPACE, plugins_url('', dirname(__FILE__)) . '/js/' . $value, array('jquery')) ;
 			}
 		}
 		
