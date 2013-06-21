@@ -13,7 +13,6 @@
 				'sga.js',
 			),
 			'front' => array(
-				'tracking.js',
 			),
 		) ;
 		
@@ -55,12 +54,16 @@
 			foreach ($this->javascript as $location => $files) {
 				switch ($location) {
 					case 'admin':
-						$this->adminJSFiles = $files ;
-						add_action('admin_enqueue_scripts', array(&$this, 'addAdminJS')) ;
+						if (!empty($files)) {
+							$this->adminJSFiles = $files ;
+							add_action('admin_enqueue_scripts', array(&$this, 'addAdminJS')) ;
+						}
 						break ;
 					case 'front':
-						$this->frontJSFiles = $files ;
-						add_action('wp_enqueue_scripts', array(&$this, 'addFrontJS')) ;
+						if (!empty($files)) {
+							$this->frontJSFiles = $files ;
+							add_action('wp_enqueue_scripts', array(&$this, 'addFrontJS')) ;
+						}
 						break ;
 					default:
 						break ;
@@ -136,12 +139,20 @@
 					
 					$options['_trackPageview'] = null ;
 					
+
+					echo "\n" ;
+					echo '<!-- Simple Google Analytics Begin -->' . "\n" ;
 					echo Output::googleCode($options) ;
+					// Si l'option de tracking est activée
+					if (Settings::getVal('sga_track_links_downloads') == 1) {
+						echo Output::addTracking() ;
+					}
+					echo "\n" . '<!-- Simple Google Analytics End -->' ;
+					echo "\n" ;
 				}
 			}
 		}
-		
-		
+
 		
 		///////////////// FILTRES
 		

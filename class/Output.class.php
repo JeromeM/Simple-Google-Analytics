@@ -74,20 +74,20 @@
 							</td>
 						</tr>
 						<tr valign="top">
+							<th scope="row" style="text-align:right;"><?php Output::_e('Track external links and downloads ?') ; ?></th>
+							<td>
+								<select id="track_links_downloads" name="sga_track_links_downloads" style="width:60px;">
+									<option value="0" <?php selected(Settings::getVal('sga_track_links_downloads'), 0) ; ?>><?php Output::_e('No') ; ?></option>
+									<option value="1" <?php selected(Settings::getVal('sga_track_links_downloads'), 1) ; ?>><?php Output::_e('Yes') ; ?></option>
+								</select>
+							</td>
+						</tr>
+						<tr valign="top">
 							<th scope="row" style="text-align:right;"><?php Output::_e('Render when logged in ?') ; ?></th>
 							<td>
 								<select id="render_when_loggedin" name="sga_render_when_loggedin" style="width:60px;">
 									<option value="0" <?php selected(Settings::getVal('sga_render_when_loggedin'), 0) ; ?>><?php Output::_e('No') ; ?></option>
 									<option value="1" <?php selected(Settings::getVal('sga_render_when_loggedin'), 1) ; ?>><?php Output::_e('Yes') ; ?></option>
-								</select>
-							</td>
-						</tr>
-						<tr valign="top">
-							<th scope="row" style="text-align:right;"><?php Output::_e('Track links and downloads ?') ; ?></th>
-							<td>
-								<select id="track_links_downloads" name="sga_track_links_downloads" style="width:60px;">
-									<option value="0" <?php selected(Settings::getVal('sga_track_links_downloads'), 0) ; ?>><?php Output::_e('No') ; ?></option>
-									<option value="1" <?php selected(Settings::getVal('sga_track_links_downloads'), 1) ; ?>><?php Output::_e('Yes') ; ?></option>
 								</select>
 							</td>
 						</tr>
@@ -127,8 +127,6 @@
 		public static function googleCode(array $options) {
 
 			// Ecriture des options
-			$ret  = "\n" ;
-			$ret .= '<!-- Simple Google Analytics Begin -->' . "\n" ;
 			$ret .= '<script type="text/javascript">' . "\n" ;
 			$ret .= 'var _gaq = [' ;
 			foreach ($options as $key => $value) {
@@ -145,11 +143,81 @@
 			$ret .= 'var s = document.getElementsByTagName(\'script\')[0]; s.parentNode.insertBefore(ga, s);' . "\n" ;
 			$ret .= '})();' . "\n" ;
 			$ret .= '</script>' ;
-			$ret .= "\n" . '<!-- Simple Google Analytics End -->' ;
-			$ret .= "\n" ;
 			
 			return $ret ;
 		}
+
+
+		// Transforme les liens pour le tracking
+		public static function addTracking() {
+			?>
+
+				<script type="text/javascript">
+
+					(function($) {
+						
+						// Type de fichiers télechargeable						
+						var filetypes = /\.(zip|exe|dmg|pdf|doc.*|xls.*|ppt.*|mp3|txt|rar|wma|mov|avi|wmv|flv|wav)$/i ;
+						var baseHref = '' ;
+
+						if ($('base').attr('href') != undefined) baseHref = $('base').attr('href') ;
+				 
+				 		// On ajoute un event sur toutes les balises 'a' de la page
+						$('a').on('click', function(event) {
+
+							var el = $(this) ;
+							var track = true ;
+							var href = (typeof(el.attr('href')) != 'undefined' ) ? el.attr('href') :"" ;
+							var isThisDomain = href.match(document.domain.split('.').reverse()[1] + '.' + document.domain.split('.').reverse()[0]) ;
+
+							if (!href.match(/^javascript:/i)) {
+								var elEv = []; elEv.value=0, elEv.non_i=false ;
+								if (href.match(/^mailto\:/i)) {
+									elEv.category = "email" ;
+									elEv.action = "click" ;
+									elEv.label = href.replace(/^mailto\:/i, '') ;
+									elEv.loc = href ;
+								}
+								else if (href.match(filetypes)) {
+									var extension = (/[.]/.exec(href)) ? /[^.]+$/.exec(href) : undefined ;
+									elEv.category = "download" ;
+									elEv.action = "click-" + extension[0] ;
+									elEv.label = href.replace(/ /g,"-") ;
+									elEv.loc = baseHref + href ;
+								}
+								else if (href.match(/^https?\:/i) && !isThisDomain) {
+									elEv.category = "external" ;
+									elEv.action = "click" ;
+									elEv.label = href.replace(/^https?\:\/\//i, '') ;
+									elEv.non_i = true;  
+									elEv.loc = href ;
+								}
+								else if (href.match(/^tel\:/i)) {
+									elEv.category = "telephone" ;
+									elEv.action = "click" ;
+									elEv.label = href.replace(/^tel\:/i, '') ;
+									elEv.loc = href ;
+								}
+								else track = false ;
+
+								if (track) {
+									_gaq.push(['_trackEvent', elEv.category.toLowerCase(), elEv.action.toLowerCase(), elEv.label.toLowerCase(), elEv.value, elEv.non_i]) ;
+									if (el.attr('target') == undefined || el.attr('target').toLowerCase() != '_blank') {
+										setTimeout(function() { location.href = elEv.loc; }, 400) ;
+										return false ;
+									}
+								}
+							}
+
+						}) ;
+
+					})(jQuery) ;
+
+				</script>
+
+			<?php
+		}
+
 	}
 	
 ?>
