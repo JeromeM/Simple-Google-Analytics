@@ -11,7 +11,7 @@
 		}
 		
 		public static function _e($output) {
-			return _e($output, self::_NAMESPACE) ;
+			_e($output, self::_NAMESPACE) ;
 		}
 		
 		
@@ -71,6 +71,15 @@
 							<th scope="row" style="text-align:right;"><?php Output::_e('Domain') ; ?></th>
 							<td>
 								<input type="text" id="multidomain" name="sga_multidomain_domain" value="<?php echo Settings::getVal('sga_multidomain_domain'); ?>" <?php disabled(Settings::getVal('sga_multidomain_setting'), 0) ;?>> <?php Output::_e('Example : domain.com') ; ?>
+							</td>
+						</tr>
+						<tr valign="top">
+							<th scope="row" style="text-align:right;"><?php Output::_e('Render when logged in?') ; ?></th>
+							<td>
+								<select id="render_when_loggedin" name="sga_render_when_loggedin" style="width:60px;">
+									<option value="0" <?php selected(Settings::getVal('sga_render_when_loggedin'), 0) ; ?>><?php Output::_e('No') ; ?></option>
+									<option value="1" <?php selected(Settings::getVal('sga_render_when_loggedin'), 1) ; ?>><?php Output::_e('Yes') ; ?></option>
+								</select>
 							</td>
 						</tr>
 					</table>

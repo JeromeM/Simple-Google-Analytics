@@ -138,7 +138,11 @@
 		// @TODO
 		// Vérifie si on doit afficher le code ou pas, selon l'utilisateur connecté
 		public static function showCode() {
-			return true ;
+			$result = true ;
+			if( is_user_logged_in() ) {
+				$result = Settings::getVal('sga_render_when_loggedin') ;
+			}
+			return $result ;
 		}
 
 	}

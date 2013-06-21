@@ -12,6 +12,7 @@
 			'sga_multidomain_setting',
 			'sga_multidomain_domain',
 			'sga_code_location',
+			'sga_render_when_loggedin',
 		) ;
 		
 		
