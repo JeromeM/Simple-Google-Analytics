@@ -3,7 +3,7 @@
 Plugin Name: Simple Google Analytics
 Plugin URI: http://www.arobase62.fr/2011/03/23/simple-google-analytics/
 Description: A simple Plugin to add Analytics code on your pages. You simply enter your ID, you choose if you are on a sub-domain and add your domain name.
-Version: 2.0.6
+Version: 2.1.0
 Author: Jerome Meyer
 Author URI: http://www.arobase62.fr
 */
@@ -17,8 +17,8 @@ Author URI: http://www.arobase62.fr
 	define('SGA_SETTINGS_AUTH', 'administrator') ;
 
 	// DEBUG ONLY
-	define('WP_DEBUG', true) ;
-	define('WP_DEBUG_DISPLAY', true) ;
+	define('WP_DEBUG', false) ;
+	define('WP_DEBUG_DISPLAY', false) ;
 	
 	// Chargement dynamique des classes
 	@include('autoload.php') ;

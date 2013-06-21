@@ -5,8 +5,8 @@ Tags: google analytics, wordpress statistics, tracking
 Plugin link: http://www.arobase62.fr/2011/03/23/simple-google-analytics/
 Requires at least: 2.6
 Tested up to: 3.5.1
-Version: 2.0.6
-Stable tag: 2.0.6
+Version: 2.1.0
+Stable tag: 2.1.0
 
 == Description ==
 Simple Google Analytics allows you to easilly add your Google Analytics code on all your pages.
@@ -49,9 +49,10 @@ It should work from 2.6 upwards.. Has been tested on all current versions and is
 1. Screenshot Simple Google Analytics Admin Page
 
 == Changelog ==
-= version 2.0.6 =
+= version 2.1.0 =
 * Corrected a bug with wp_enqueue_script
-* Add the link / download tracking
+* Change the JS loading method
+* Add the external links / downloads tracking
 = version 2.0.5 =
 * Added the option to not render when logged in
 = version 2.0.4 =
