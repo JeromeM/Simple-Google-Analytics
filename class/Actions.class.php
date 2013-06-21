@@ -9,7 +9,12 @@
 		
 		// Fichiers JS à charger
 		private $javascript = array(
-			'sga.js',
+			'admin' => array(
+				'sga.js',
+			),
+			'front' => array(
+				'tracking.js',
+			),
 		) ;
 		
 		
@@ -42,14 +47,38 @@
 		}
 		
 		// Ajout des Javascripts
+		// To fix .. Fichiers JS à charger
+		protected $adminJSFiles = array() ;
+		protected $frontJSFiles = array() ;
 		private function addJS() {
-			
 			// Pour chaque fichier JS
-			foreach ($this->javascript as $value) {
-				wp_enqueue_script(self::_NAMESPACE, plugins_url('', dirname(__FILE__)) . '/js/' . $value, array('jquery')) ;
+			foreach ($this->javascript as $location => $files) {
+				switch ($location) {
+					case 'admin':
+						$this->adminJSFiles = $files ;
+						add_action('admin_enqueue_scripts', array(&$this, 'addAdminJS')) ;
+						break ;
+					case 'front':
+						$this->frontJSFiles = $files ;
+						add_action('wp_enqueue_scripts', array(&$this, 'addFrontJS')) ;
+						break ;
+					default:
+						break ;
+				}
 			}
 		}
-		
+
+		public function addAdminJS() {
+			foreach ($this->adminJSFiles as $file) {
+				wp_enqueue_script(self::_NAMESPACE, plugins_url('', dirname(__FILE__)) . '/js/' . $file, array('jquery')) ;
+			}
+		}
+
+		public function addFrontJS() {
+			foreach ($this->frontJSFiles as $file) {
+				wp_enqueue_script(self::_NAMESPACE, plugins_url('', dirname(__FILE__)) . '/js/' . $file, array('jquery')) ;
+			}
+		}
 		
 		
 		///////////// ACTIONS

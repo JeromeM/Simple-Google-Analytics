@@ -74,11 +74,20 @@
 							</td>
 						</tr>
 						<tr valign="top">
-							<th scope="row" style="text-align:right;"><?php Output::_e('Render when logged in?') ; ?></th>
+							<th scope="row" style="text-align:right;"><?php Output::_e('Render when logged in ?') ; ?></th>
 							<td>
 								<select id="render_when_loggedin" name="sga_render_when_loggedin" style="width:60px;">
 									<option value="0" <?php selected(Settings::getVal('sga_render_when_loggedin'), 0) ; ?>><?php Output::_e('No') ; ?></option>
 									<option value="1" <?php selected(Settings::getVal('sga_render_when_loggedin'), 1) ; ?>><?php Output::_e('Yes') ; ?></option>
+								</select>
+							</td>
+						</tr>
+						<tr valign="top">
+							<th scope="row" style="text-align:right;"><?php Output::_e('Track links and downloads ?') ; ?></th>
+							<td>
+								<select id="track_links_downloads" name="sga_track_links_downloads" style="width:60px;">
+									<option value="0" <?php selected(Settings::getVal('sga_track_links_downloads'), 0) ; ?>><?php Output::_e('No') ; ?></option>
+									<option value="1" <?php selected(Settings::getVal('sga_track_links_downloads'), 1) ; ?>><?php Output::_e('Yes') ; ?></option>
 								</select>
 							</td>
 						</tr>
