@@ -122,6 +122,7 @@
 			if (self::showCode()) {
 				
 				$options = array() ;
+				$demographic = false ;
 				
 				// Seulement si on a enregistré un ID
 				if (Settings::getVal('sga_analytics_id') !== false) {
@@ -136,13 +137,18 @@
 					if (Settings::getVal('sga_sitespeed_setting') == 1) {
 						$options['_trackPageLoadTime'] = null ;
 					}
+
+					// Option demographique / interets
+					if (Settings::getVal('sga_demographic_and_interest') == 1) {
+						$demographic = true ;
+					}
 					
 					$options['_trackPageview'] = null ;
 					
 
 					echo "\n" ;
 					echo '<!-- Simple Google Analytics Begin -->' . "\n" ;
-					echo Output::googleCode($options) ;
+					echo Output::googleCode($options, $demographic) ;
 					// Si l'option de tracking est activée
 					if (Settings::getVal('sga_track_links_downloads') == 1) {
 						echo Output::addTracking() ;

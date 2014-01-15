@@ -83,6 +83,15 @@
 							</td>
 						</tr>
 						<tr valign="top">
+							<th scope="row" style="text-align:right;"><?php Output::_e('Enable Demographics and Interests reports ?') ; ?></th>
+							<td>
+								<select id="track_links_downloads" name="sga_demographic_and_interest" style="width:60px;">
+									<option value="0" <?php selected(Settings::getVal('sga_demographic_and_interest'), 0) ; ?>><?php Output::_e('No') ; ?></option>
+									<option value="1" <?php selected(Settings::getVal('sga_demographic_and_interest'), 1) ; ?>><?php Output::_e('Yes') ; ?></option>
+								</select>
+							</td>
+						</tr>
+						<tr valign="top">
 							<th scope="row" style="text-align:right;"><?php Output::_e('Render when logged in ?') ; ?></th>
 							<td>
 								<select id="render_when_loggedin" name="sga_render_when_loggedin" style="width:60px;">
@@ -124,7 +133,7 @@
 		
 		
 		// Génère le code Google Analytics
-		public static function googleCode(array $options) {
+		public static function googleCode(array $options, $demographic = false) {
 
 			// Ecriture des options
 			$ret .= '<script type="text/javascript">' . "\n" ;
@@ -139,7 +148,12 @@
 			// Code Google
 			$ret .= '(function() {' . "\n" ;
 			$ret .= 'var ga = document.createElement(\'script\'); ga.type = \'text/javascript\'; ga.async = true;' . "\n" ;
-			$ret .= 'ga.src = (\'https:\' == document.location.protocol ? \'https://ssl\' : \'http://www\') + \'.google-analytics.com/ga.js\';' . "\n" ;
+			if ($demographic === false) {
+				$ret .= 'ga.src = (\'https:\' == document.location.protocol ? \'https://ssl\' : \'http://www\') + \'.google-analytics.com/ga.js\';' . "\n" ;
+			}
+			else {
+				$ret .= 'ga.src = (\'https:\' == document.location.protocol ? \'https://\' : \'http://\') + \'stats.g.doubleclick.net/dc.js\';' . "\n" ;
+			}
 			$ret .= 'var s = document.getElementsByTagName(\'script\')[0]; s.parentNode.insertBefore(ga, s);' . "\n" ;
 			$ret .= '})();' . "\n" ;
 			$ret .= '</script>' ;
