@@ -16,9 +16,6 @@ Author URI: http://www.arobase62.fr
 	define('SGA_PLUGIN_TITLE', 'Simple Google Analytics') ; // Titre
 	define('SGA_SETTINGS_AUTH', 'administrator') ;
 
-	// DEBUG ONLY
-	define('WP_DEBUG', false) ;
-	define('WP_DEBUG_DISPLAY', false) ;
 	
 	// Chargement dynamique des classes
 	@include('autoload.php') ;
