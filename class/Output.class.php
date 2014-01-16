@@ -137,13 +137,13 @@
 
 			// Ecriture des options
 			$ret .= '<script type="text/javascript">' . "\n" ;
-			$ret .= 'var _gaq = [' ;
+			$ret .= 'var _gaq = _gaq || [];' . "\n" ;
 			foreach ($options as $key => $value) {
-				$ret .= is_null($value) ? '[\'' . $key . '\']' : '[\'' . $key . '\',\'' . $value . '\']' ;
-				$ret .= ',' ;
+				$ret .= '_gaq.push([' ;
+				$ret .= is_null($value) ? '\'' . $key . '\'' : '\'' . $key . '\',\'' . $value . '\'' ;
+				$ret .= ']);' ;
+				$ret .= "\n" ;
 			}
-			$ret  = rtrim($ret, ',') ;
-			$ret .= '];' ;
 			
 			// Code Google
 			$ret .= '(function() {' . "\n" ;
