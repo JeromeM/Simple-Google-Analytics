@@ -157,6 +157,11 @@
 					echo "\n" ;
 				}
 			}
+			else {
+
+				// Afficher un commentaire pour spécifier que le plugin est bien chargé
+				echo "\n" . '<!-- Simple Google Analytics - Code is not active while you are being logged. This option can be changed in the parameters -->' . "\n" ;
+			}
 		}
 
 		
